@@ -1,0 +1,51 @@
+{
+  "name": "gulp-live",
+  "version": "0.1.0",
+  "description": "Gulp plugin to run a Server with Live Edition and Live Reload",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/StudioLabs/gulp-live"
+  },
+  "authors": [
+    {
+      "name": "Steed Monteiro",
+      "email": "steed@studiolabs.io"
+    },
+    {
+      "name": "Contributors",
+      "homepage": "https://github.com/StudioLabs/gulp-live/graphs/contributors"
+    }
+  ],
+  "scripts": {
+    "test": "mocha"
+  },
+  "engines": {
+    "node": ">=0.10.0"
+  },
+  "keywords": [
+    "gulpfriendly",
+    "live",
+    "liveedit",
+    "livereload",
+    "webserver",
+    "hot",
+    "reload",
+    "server"
+  ],
+  "dependencies": {
+    "connect": "^3.4.0",
+    "connect-livereload": "~0.3.2",
+    "event-stream": "~3.1.0",
+    "gulp-util": "^3.0.6",
+    "live-edit": "^1.2.0",
+    "lodash": "^3.10.1",
+    "tiny-lr": "^0.0.7"
+  },
+  "devDependencies": {
+    "gulp": "~3.5.1",
+    "gulp-stylus": "0.0.11",
+    "mocha": "^1.18.2",
+    "supertest": "^0.10.0"
+  }
+}

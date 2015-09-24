@@ -7,172 +7,60 @@ gulp-connect [![Build Status](http://img.shields.io/travis/AveVlad/gulp-connect.
 ## Install
 
 ```
-npm install --save-dev gulp-connect
+npm install --save-dev gulp-live
 ```
 
 ## Usage
 
 ```js
-var gulp = require('gulp'),
-  connect = require('gulp-connect');
+module.exports = function($, gulp, paths) {
 
-gulp.task('connect', function() {
-  connect.server();
-});
+    var live = require('gulp-live');
 
-gulp.task('default', ['connect']);
-```
+    var handlebars = require('handlebars');
 
-#### LiveReload
-```js
-var gulp = require('gulp'),
-  connect = require('gulp-connect');
+    var css  = require('./css')($, gulp, paths);
 
-gulp.task('connect', function() {
-  connect.server({
-    root: 'app',
-    livereload: true
-  });
-});
+    return {
+        live: function() {
 
-gulp.task('html', function () {
-  gulp.src('./app/*.html')
-    .pipe(connect.reload());
-});
+            return live.start({
+                src: './',
+                dest: paths.build.dest,
+                port:8888,
+                debug:true,
+                verbose:true,
+                server: {
+                    port:7777,
+                    root: paths.build.dest
+                },
+                resolve: {
+                    '.js': {
+                        resolver: 'browserify',
+                        map: paths.build.dest + '/src'
+                    },
+                    '.scss': {
+                        resolver: 'sass',
+                        cmd: css.live.edit,
+                        map: paths.build.dest + '/sass'
+                    },
+                    '.hbs': {
+                        resolver: 'handlebars',
+                        module: handlebars,
+                        map: paths.build.dest + '/src'
+                    }
+                }
+            });
+        },
+        watch: function() {
+            console.log('start watching :');
+            console.log(paths.src.js);
+            console.log(paths.src.scss);
 
-gulp.task('watch', function () {
-  gulp.watch(['./app/*.html'], ['html']);
-});
-
-gulp.task('default', ['connect', 'watch']);
-```
-
-
-#### Start and stop server
-
-```js
-gulp.task('jenkins-tests', function() {
-  connect.server({
-    port: 8888
-  });
-  // run some headless tests with phantomjs
-  // when process exits:
-  connect.serverClose();
-});
-```
-
-
-#### Multiple server
-
-```js
-var gulp = require('gulp'),
-  stylus = require('gulp-stylus'),
-  connect = require('gulp-connect');
-
-gulp.task('connectDev', function () {
-  connect.server({
-    root: ['app', 'tmp'],
-    port: 8000,
-    livereload: true
-  });
-});
-
-gulp.task('connectDist', function () {
-  connect.server({
-    root: 'dist',
-    port: 8001,
-    livereload: true
-  });
-});
-
-gulp.task('html', function () {
-  gulp.src('./app/*.html')
-    .pipe(connect.reload());
-});
-
-gulp.task('stylus', function () {
-  gulp.src('./app/stylus/*.styl')
-    .pipe(stylus())
-    .pipe(gulp.dest('./app/css'))
-    .pipe(connect.reload());
-});
-
-gulp.task('watch', function () {
-  gulp.watch(['./app/*.html'], ['html']);
-  gulp.watch(['./app/stylus/*.styl'], ['stylus']);
-});
-
-gulp.task('default', ['connectDist', 'connectDev', 'watch']);
+            gulp.watch(paths.src.js).on('change', live.edited);
+            gulp.watch(paths.src.scss).on('change', live.edited);
+        }
+    };
+};
 
 ```
-
-## API
-
-#### options.root
-
-Type: `Array or String`
-Default: `Directory with gulpfile`
-
-The root path
-
-#### options.port
-
-Type: `Number`
-Default: `8080`
-
-The connect webserver port
-
-#### options.host
-
-Type: `String`
-Default: `localhost`
-
-#### options.https
-
-Type: `Boolean`
-Default: `false`
-
-#### options.livereload
-
-Type: `Object or Boolean`
-Default: `false`
-
-#### options.livereload.port
-
-Type: `Number`
-Default: `35729`
-
-#### options.fallback
-
-Type: `String`
-Default: `undefined`
-
-Fallback file (e.g. `index.html`)
-
-#### options.middleware
-
-Type: `Function`
-Default: `[]`
-
-#### options.debug
-
-Type: `Boolean`
-Default: `false`
-
-
-```js
-gulp.task('connect', function() {
-  connect.server({
-    root: "app",
-    middleware: function(connect, opt) {
-      return [
-        // ...
-      ]
-    }
-  });
-});
-```
-
-## Contributors
-
-[AveVlad](https://github.com/AveVlad) and [schickling](https://github.com/schickling)

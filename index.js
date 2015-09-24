@@ -1,38 +1,40 @@
-var path = require("path");
 var es = require("event-stream");
 var http = require("http");
 var Live = require("live-edit");
 var util = require("gulp-util");
 
-function LiveServer(options) {
-	this.live = new Live(options);
-	return this.live;
+function LiveServer() {
+	this.live = new Live();
 }
 
-LiveServer.prototype.start = function(line) {
-	this.live.start();
+LiveServer.prototype.start = function(options) {
+	this.live.start(options);
 };
 
-LiveServer.prototype.changed = function(filepath) {
-	this.live.onFileChange(filepath, this.root);
+LiveServer.prototype.edited = function(filepath) {
+	this.live.onFileChange(filepath);
 };
 
-var server = null;
+LiveServer.prototype.close = function() {
+	this.live.close();
+};
+
+var server = new LiveServer();
 
 module.exports = {
 	start: function(options) {
-		server = new LiveServer(options);
-		return server;
+		return server.start(options);
 	},
-	changed: function() {
-		return es.map(function(file, callback) {
-			util.log(util.colors.blue('file changed : ' + file.path));
-			server.onFileChange(file.path);
-			return callback(null, file);
+	edited: function() {
+		console.log('edited');
+
+		var files = Array.prototype.slice.call(arguments);
+		if (files[files.length - 1] === 'function') done = files.pop();
+		done = typeof done === 'function' ? done : function() {};
+		files.forEach(function(file) {
+			server.edited(file.path);
+			done();
 		});
-	},
-	close: function() {
-		return server.close();
 	}
 };
 

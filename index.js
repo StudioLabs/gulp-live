@@ -1,7 +1,7 @@
 var path = require("path");
 var es = require("event-stream");
 var http = require("http");
-var Live = require("../live-edit");
+var Live = require("live-edit");
 var util = require("gulp-util");
 
 function LiveServer(options) {

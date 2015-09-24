@@ -1,0 +1,113 @@
+0 info it worked if it ends with ok
+1 verbose cli [ 'node', '/usr/local/bin/npm', 'publish' ]
+2 info using npm@2.7.5
+3 info using node@v0.12.0
+4 verbose publish [ '.' ]
+5 silly cache add args [ '.', null ]
+6 verbose cache add spec .
+7 silly cache add parsed spec { raw: '.',
+7 silly cache add   scope: null,
+7 silly cache add   name: null,
+7 silly cache add   rawSpec: '.',
+7 silly cache add   spec: '/Volumes/WORKSPACE/Dropbox/www/dev/project/studiolabs/gulp-live',
+7 silly cache add   type: 'directory' }
+8 verbose addLocalDirectory /Users/steed/.npm/gulp-live/0.1.3/package.tgz not in flight; packing
+9 verbose tar pack [ '/Users/steed/.npm/gulp-live/0.1.3/package.tgz',
+9 verbose tar pack   '/Volumes/WORKSPACE/Dropbox/www/dev/project/studiolabs/gulp-live' ]
+10 verbose tarball /Users/steed/.npm/gulp-live/0.1.3/package.tgz
+11 verbose folder /Volumes/WORKSPACE/Dropbox/www/dev/project/studiolabs/gulp-live
+12 info prepublish gulp-live@0.1.3
+13 verbose addLocalTarball adding from inside cache /Users/steed/.npm/gulp-live/0.1.3/package.tgz
+14 silly cache afterAdd gulp-live@0.1.3
+15 verbose afterAdd /Users/steed/.npm/gulp-live/0.1.3/package/package.json not in flight; writing
+16 verbose afterAdd /Users/steed/.npm/gulp-live/0.1.3/package/package.json written
+17 silly publish { name: 'gulp-live',
+17 silly publish   version: '0.1.3',
+17 silly publish   description: 'Gulp plugin to run a Server with Live Edition and Live Reload',
+17 silly publish   license: 'MIT',
+17 silly publish   repository: { type: 'git', url: 'git://github.com/StudioLabs/gulp-live' },
+17 silly publish   authors:
+17 silly publish    [ { name: 'Steed Monteiro', email: 'steed@studiolabs.io' },
+17 silly publish      { name: 'Contributors',
+17 silly publish        homepage: 'https://github.com/StudioLabs/gulp-live/graphs/contributors' } ],
+17 silly publish   scripts: { test: 'mocha' },
+17 silly publish   engines: { node: '>=0.10.0' },
+17 silly publish   keywords:
+17 silly publish    [ 'gulpfriendly',
+17 silly publish      'live',
+17 silly publish      'liveedit',
+17 silly publish      'livereload',
+17 silly publish      'webserver',
+17 silly publish      'hot',
+17 silly publish      'reload',
+17 silly publish      'server' ],
+17 silly publish   dependencies:
+17 silly publish    { connect: '^3.4.0',
+17 silly publish      'connect-livereload': '~0.3.2',
+17 silly publish      'event-stream': '~3.1.0',
+17 silly publish      'gulp-util': '^3.0.6',
+17 silly publish      'live-edit': '^1.2.0',
+17 silly publish      lodash: '^3.10.1',
+17 silly publish      'tiny-lr': '^0.0.7' },
+17 silly publish   devDependencies:
+17 silly publish    { gulp: '~3.5.1',
+17 silly publish      'gulp-stylus': '0.0.11',
+17 silly publish      mocha: '^1.18.2',
+17 silly publish      supertest: '^0.10.0' },
+17 silly publish   readme: 'gulp-connect [![Build Status](http://img.shields.io/travis/AveVlad/gulp-connect.svg?style=flat)](https://travis-ci.org/AveVlad/gulp-connect) [![](http://img.shields.io/npm/dm/gulp-connect.svg?style=flat)](https://www.npmjs.org/package/gulp-connect) [![](http://img.shields.io/npm/v/gulp-connect.svg?style=flat)](https://www.npmjs.org/package/gulp-connect)\n==============\n\n> Gulp plugin to run a webserver (with LiveReload)\n\n\n## Install\n\n```\nnpm install --save-dev gulp-connect\n```\n\n## Usage\n\n```js\nvar gulp = require(\'gulp\'),\n  connect = require(\'gulp-connect\');\n\ngulp.task(\'connect\', function() {\n  connect.server();\n});\n\ngulp.task(\'default\', [\'connect\']);\n```\n\n#### LiveReload\n```js\nvar gulp = require(\'gulp\'),\n  connect = require(\'gulp-connect\');\n\ngulp.task(\'connect\', function() {\n  connect.server({\n    root: \'app\',\n    livereload: true\n  });\n});\n\ngulp.task(\'html\', function () {\n  gulp.src(\'./app/*.html\')\n    .pipe(connect.reload());\n});\n\ngulp.task(\'watch\', function () {\n  gulp.watch([\'./app/*.html\'], [\'html\']);\n});\n\ngulp.task(\'default\', [\'connect\', \'watch\']);\n```\n\n\n#### Start and stop server\n\n```js\ngulp.task(\'jenkins-tests\', function() {\n  connect.server({\n    port: 8888\n  });\n  // run some headless tests with phantomjs\n  // when process exits:\n  connect.serverClose();\n});\n```\n\n\n#### Multiple server\n\n```js\nvar gulp = require(\'gulp\'),\n  stylus = require(\'gulp-stylus\'),\n  connect = require(\'gulp-connect\');\n\ngulp.task(\'connectDev\', function () {\n  connect.server({\n    root: [\'app\', \'tmp\'],\n    port: 8000,\n    livereload: true\n  });\n});\n\ngulp.task(\'connectDist\', function () {\n  connect.server({\n    root: \'dist\',\n    port: 8001,\n    livereload: true\n  });\n});\n\ngulp.task(\'html\', function () {\n  gulp.src(\'./app/*.html\')\n    .pipe(connect.reload());\n});\n\ngulp.task(\'stylus\', function () {\n  gulp.src(\'./app/stylus/*.styl\')\n    .pipe(stylus())\n    .pipe(gulp.dest(\'./app/css\'))\n    .pipe(connect.reload());\n});\n\ngulp.task(\'watch\', function () {\n  gulp.watch([\'./app/*.html\'], [\'html\']);\n  gulp.watch([\'./app/stylus/*.styl\'], [\'stylus\']);\n});\n\ngulp.task(\'default\', [\'connectDist\', \'connectDev\', \'watch\']);\n\n```\n\n## API\n\n#### options.root\n\nType: `Array or String`\nDefault: `Directory with gulpfile`\n\nThe root path\n\n#### options.port\n\nType: `Number`\nDefault: `8080`\n\nThe connect webserver port\n\n#### options.host\n\nType: `String`\nDefault: `localhost`\n\n#### options.https\n\nType: `Boolean`\nDefault: `false`\n\n#### options.livereload\n\nType: `Object or Boolean`\nDefault: `false`\n\n#### options.livereload.port\n\nType: `Number`\nDefault: `35729`\n\n#### options.fallback\n\nType: `String`\nDefault: `undefined`\n\nFallback file (e.g. `index.html`)\n\n#### options.middleware\n\nType: `Function`\nDefault: `[]`\n\n#### options.debug\n\nType: `Boolean`\nDefault: `false`\n\n\n```js\ngulp.task(\'connect\', function() {\n  connect.server({\n    root: "app",\n    middleware: function(connect, opt) {\n      return [\n        // ...\n      ]\n    }\n  });\n});\n```\n\n## Contributors\n\n[AveVlad](https://github.com/AveVlad) and [schickling](https://github.com/schickling)\n',
+17 silly publish   readmeFilename: 'README.md',
+17 silly publish   gitHead: '41ca33d72974b9260a09fc8e36820144ea0ca42b',
+17 silly publish   bugs: { url: 'https://github.com/StudioLabs/gulp-live/issues' },
+17 silly publish   homepage: 'https://github.com/StudioLabs/gulp-live',
+17 silly publish   _id: 'gulp-live@0.1.3',
+17 silly publish   _shasum: '5b22a460f7c86acaf64ab2da143c97998f945d16',
+17 silly publish   _from: '.' }
+18 silly mapToRegistry name gulp-live
+19 silly mapToRegistry using default registry
+20 silly mapToRegistry registry https://registry.npmjs.org/
+21 silly mapToRegistry uri https://registry.npmjs.org/gulp-live
+22 verbose publish registryBase https://registry.npmjs.org/
+23 silly publish uploading /Users/steed/.npm/gulp-live/0.1.3/package.tgz
+24 verbose request uri https://registry.npmjs.org/gulp-live
+25 verbose request sending authorization for write operation
+26 info attempt registry request try #1 at 11:23:37
+27 verbose request using bearer token for auth
+28 verbose request id 545bbf6b3f6e70c4
+29 http request PUT https://registry.npmjs.org/gulp-live
+30 http 403 https://registry.npmjs.org/gulp-live
+31 verbose headers { 'content-type': 'application/json',
+31 verbose headers   'cache-control': 'max-age=60',
+31 verbose headers   'content-length': '95',
+31 verbose headers   'accept-ranges': 'bytes',
+31 verbose headers   date: 'Thu, 24 Sep 2015 09:23:38 GMT',
+31 verbose headers   via: '1.1 varnish',
+31 verbose headers   connection: 'keep-alive',
+31 verbose headers   'x-served-by': 'cache-fra1222-FRA',
+31 verbose headers   'x-cache': 'MISS',
+31 verbose headers   'x-cache-hits': '0',
+31 verbose headers   'x-timer': 'S1443086617.876695,VS0,VE1108' }
+32 verbose request invalidating /Users/steed/.npm/registry.npmjs.org/gulp-live on PUT
+33 error publish Failed PUT 403
+34 verbose stack Error: "You cannot publish over the previously published version 0.1.3." : gulp-live
+34 verbose stack     at CachingRegistryClient.<anonymous> (/usr/local/lib/node_modules/npm/node_modules/npm-registry-client/lib/request.js:247:14)
+34 verbose stack     at Request._callback (/usr/local/lib/node_modules/npm/node_modules/npm-registry-client/lib/request.js:170:14)
+34 verbose stack     at Request.self.callback (/usr/local/lib/node_modules/npm/node_modules/request/request.js:360:22)
+34 verbose stack     at Request.emit (events.js:110:17)
+34 verbose stack     at Request.<anonymous> (/usr/local/lib/node_modules/npm/node_modules/request/request.js:1202:14)
+34 verbose stack     at Request.emit (events.js:129:20)
+34 verbose stack     at IncomingMessage.<anonymous> (/usr/local/lib/node_modules/npm/node_modules/request/request.js:1150:12)
+34 verbose stack     at IncomingMessage.emit (events.js:129:20)
+34 verbose stack     at _stream_readable.js:908:16
+34 verbose stack     at process._tickCallback (node.js:355:11)
+35 verbose statusCode 403
+36 verbose pkgid gulp-live
+37 verbose cwd /Volumes/WORKSPACE/Dropbox/www/dev/project/studiolabs/gulp-live
+38 error Darwin 14.5.0
+39 error argv "node" "/usr/local/bin/npm" "publish"
+40 error node v0.12.0
+41 error npm  v2.7.5
+42 error code E403
+43 error "You cannot publish over the previously published version 0.1.3." : gulp-live
+44 error If you need help, you may report this error at:
+44 error     <https://github.com/npm/npm/issues>
+45 verbose exit [ 1, true ]

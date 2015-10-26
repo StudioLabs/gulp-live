@@ -25,6 +25,10 @@ LiveServer.prototype.start = function(options) {
 	live.start(options);
 };
 
+LiveServer.prototype.open = function(url, name) {
+	live.open(url, name);
+};
+
 LiveServer.prototype.reload = function() {
 	if (live.ws !== undefined) {
 		live.ws.broadcast({action:'reload'});
@@ -44,4 +48,3 @@ LiveServer.prototype.edit = function() {
 var server = new LiveServer();
 
 module.exports = server;
-

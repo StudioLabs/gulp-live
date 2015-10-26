@@ -1,6 +1,6 @@
 {
   "name": "gulp-live",
-  "version": "0.1.9",
+  "version": "0.2.0",
   "description": "Gulp plugin to run a Server with Live Edition and Live Reload",
   "license": "MIT",
   "repository": {

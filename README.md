@@ -13,54 +13,77 @@ npm install --save-dev gulp-live
 ## Usage
 
 ```js
-module.exports = function($, gulp, paths) {
+module.exports = function($, gulp, config) {
 
     var live = require('gulp-live');
 
-    var handlebars = require('handlebars');
+    //var handlebars = require('handlebars');
 
-    var css  = require('./css')($, gulp, paths);
+    var css  = require('./css')($, gulp, config);
 
     return {
-        live: function() {
+        server: function() {
+            process.env.PORT = 3000;
+            process.env.ROOT = config.path.build.client;
 
-            return live.start({
-                src: './',
-                dest: paths.build.dest,
+            require(config.path.root + '/src/server');
+
+            return live.open('http://localhost:' + process.env.PORT);
+        },
+        connect: function() {
+            return live.connect({
+                port:3000,
+                open: true,
+                root: config.path.build.client
+            });
+        },
+        devtools: function() {
+            return live.devtools({
+                src: './src/client/',
+                dest: config.path.build.client,
                 port:8888,
                 debug:true,
                 verbose:true,
-                server: {
-                    port:7777,
-                    root: paths.build.dest
-                },
                 resolve: {
                     '.js': {
                         resolver: 'browserify',
-                        map: paths.build.dest + '/src'
+                        map: config.path.build.client + '/src'
                     },
                     '.scss': {
                         resolver: 'sass',
                         cmd: css.live.edit,
-                        map: paths.build.dest + '/sass'
+                        map: config.path.build.client + '/sass'
                     },
-                    '.hbs': {
-                        resolver: 'handlebars',
-                        module: handlebars,
-                        map: paths.build.dest + '/src'
-                    }
+
+                    // '.ect': {
+                    //     resolver: 'ect',
+                    //     data: config
+                    // }
                 }
             });
+
         },
         watch: function() {
-            console.log('start watching :');
-            console.log(paths.src.js);
-            console.log(paths.src.scss);
 
-            gulp.watch(paths.src.js).on('change', live.edited);
-            gulp.watch(paths.src.scss).on('change', live.edited);
+            config.isWatching = true;
+            console.log('start watching :');
+            console.log(config.path.src.js.files);
+            console.log(config.path.src.sass.files);
+            console.log(config.path.src.client);
+
+            // gulp.watch(config.path.src.js.files).on('change', [live.edit]);
+            // gulp.watch(config.path.src.sass.files).on('change', live.edit);
+            // gulp.watch(config.path.src.client).on('change', live.edit);
+
+            gulp.watch(config.path.src.js.files, ['reload:js']);
+            gulp.watch(config.path.src.sass.files, ['reload:css']);
+            gulp.watch(config.path.src.client, ['reload:index']);
+        },
+        reload: function() {
+            return live.reload();
         }
     };
 };
+
 
 ```

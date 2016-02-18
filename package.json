@@ -1,11 +1,11 @@
 {
-  "name": "gulp-live",
-  "version": "0.2.1",
+  "name": "gulp-devtools-live",
+  "version": "0.1.2",
   "description": "Gulp plugin to run a Server with Live Edition and Live Reload",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git://github.com/StudioLabs/gulp-live"
+    "url": "git://github.com/StudioLabs/gulp-devtools-live"
   },
   "authors": [
     {
@@ -34,12 +34,7 @@
     "server"
   ],
   "dependencies": {
-    "connect": "^3.4.0",
-    "event-stream": "~3.1.0",
-    "gulp-util": "^3.0.6",
-    "live-edit": "1.2.5",
-    "lodash": "^3.10.1",
-    "tiny-lr": "^0.0.7"
+    "devtools-live": "^0.1.0"
   },
   "devDependencies": {
     "gulp": "~3.5.1",

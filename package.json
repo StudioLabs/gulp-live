@@ -34,7 +34,7 @@
     "server"
   ],
   "dependencies": {
-    "devtools-live": "^0.1.0"
+    "devtools-live": "^0.1.2"
   },
   "devDependencies": {
     "gulp": "~3.5.1",

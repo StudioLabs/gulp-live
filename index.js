@@ -11,7 +11,7 @@ LiveServer.prototype.connect = function(options) {
 };
 
 LiveServer.prototype.devtools = function(options) {
-	live.devtools(options);
+	return live.devtools(options);
 };
 
 LiveServer.prototype.watch = function(options) {

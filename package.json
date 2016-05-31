@@ -1,6 +1,6 @@
 {
   "name": "gulp-devtools-live",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "description": "Gulp plugin to run a Server with Live Edition and Live Reload",
   "license": "MIT",
   "repository": {
@@ -34,7 +34,7 @@
     "server"
   ],
   "dependencies": {
-    "devtools-live": "^0.1.8"
+    "devtools-live": "^0.1.9"
   },
   "devDependencies": {
     "gulp": "~3.5.1",

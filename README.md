@@ -4,7 +4,7 @@
 ## Install
 
 ```
-npm install --save-dev gulp-live
+npm install --save-dev gulp-devtools-live
 ```
 
 ## Usage
@@ -12,7 +12,7 @@ npm install --save-dev gulp-live
 ```js
 module.exports = function($, gulp, config) {
 
-    var live = require('gulp-live');
+    var live = require('gulp-devtools-live');
 
     //var handlebars = require('handlebars');
 
